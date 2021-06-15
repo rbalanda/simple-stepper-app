@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import { BrowserRouter } from "react-router-dom";
+import { Switch, Route } from "react-router";
+import Stepper from './organisms/Stepper';
+import InitStateAppProvider from './hocs/InitStateAppProvider'
+import { steps } from './steps';
 import './App.css';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <InitStateAppProvider steps={steps} >
+        <Stepper steps={steps} >
+          <Switch>
+            {steps.map((el, i) => (
+              <Route key={i} path={el.path}>
+                <div className="currentStep">
+                  <p> Step {el.name} </p>
+                </div>
+              </Route>
+            ))}
+          </Switch>
+        </Stepper>
+      </InitStateAppProvider>
+    </BrowserRouter>
   );
 }
 
